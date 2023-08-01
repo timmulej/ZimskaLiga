@@ -1,0 +1,84 @@
+﻿
+@model ZimskaLiga.ViewModels.MeasureUsersModel
+
+<html>
+    <head>
+         Tekmovalci
+    </head>
+
+<body>
+        <form method="post" class="card p-3">
+        @if (Model.UpdateLogin.id != 0)
+        {
+            <div class="row">
+                <label asp-for="UpdateLogin.id">Id</label>
+                <input type="text" asp-for="UpdateLogin.id" class="mr-5" readonly>
+
+<div class="row">
+        <div asp-validation-summary="All"></div>
+    </div>
+    <div class="form-group mb-0 align-middle">
+                    <label asp-for="UpdateLogin.UserName">Name</label>
+                    <input type="text" asp-for="UpdateLogin.UserName" class="mr-5">
+                    <label asp-for="UpdateLogin.passcode"> Date of birth</label>
+                    <input type="text" asp-for="UpdateLogin.passcode" class="mr-5">
+                    <label asp-for="UpdateLogin.castekmovalca">Time</label>
+                    <input type="TimeSpan" asp-for="UpdateLogin.castekmovalca" class="mr-5"></input>
+        <button class="btn btn-primary">
+            @if (Model.UpdateLogin.id == 0)
+            {
+                @("Add")
+            }
+            else
+            {
+                @("Save")
+            }
+        </button>
+    </div>
+            </div>
+        }
+    </form>
+ <table class="table mt-5">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Ime</th>
+            <th scope="col">Čas</th>
+            <th scope="col">Uvrstitev</th>
+            <th scope="col">Delete</th>
+            <th scope="col">Copy</th>
+            <th scope="col">Update</th>
+
+        </tr>
+    </thead>
+    @foreach (var LoginModel in Model.LoginModels)
+    {
+        <tr>
+            <td>@LoginModel.id</td>
+            <td>@LoginModel.UserName</td>
+            <td>@LoginModel.castekmovalca</td>
+            <td>@LoginModel.uvrstitev</td>
+            <td>
+                <form method="post" asp-page-handler="Delete" asp-route-id="@LoginModel.id">
+                    <button class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+            <td>
+                <form method="post" asp-page-handler="Copy" asp-route-id="@LoginModel.id">
+                    <button class="btn btn-danger">Copy</button>
+                </form>
+            </td>
+            <td>
+                <form method="post" asp-page-handler="LoadUpdate" asp-route-id="@LoginModel.id">
+                    <button class="btn btn-danger">Update</button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>
+</body>
+</html>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
